@@ -15,7 +15,6 @@ fun View.startCircularReveal(posX : Int, posY : Int) {
 
             val radius = Math.hypot( right.toDouble(), bottom.toDouble()).toInt()
             ViewAnimationUtils.createCircularReveal(v, posX, posY, 0f, radius.toFloat()).apply {
-                //interpolator = DecelerateInterpolator(2f)
                 duration = 1000
                 start()
             }
@@ -23,18 +22,10 @@ fun View.startCircularReveal(posX : Int, posY : Int) {
     })
 }
 
-/**
- * Animate fragment exit using given parameters as animation end point. Runs the given block of code
- * after animation completion.
- *
- * @param exitX: Animation end point X coordinate.
- * @param exitY: Animation end point Y coordinate.
- * @param block: Block of code to be executed on animation completion.
- */
 fun View.exitCircularReveal(exitX: Int, exitY: Int, block: () -> Unit) {
     val startRadius = Math.hypot(this.width.toDouble(), this.height.toDouble())
     ViewAnimationUtils.createCircularReveal(this, exitX, exitY, startRadius.toFloat(), 0f).apply {
-        duration = 1000//350
+        duration = 1000
         interpolator = DecelerateInterpolator(2f)
         addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator?) {

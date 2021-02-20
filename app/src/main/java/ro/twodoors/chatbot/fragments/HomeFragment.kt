@@ -22,10 +22,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             val positions = it.getViewCenter()
             fragmentManager?.open {
                 add(R.id.container, ChatBotFragment.newInstance(positions)).addToBackStack(null)
-                //remove(this@HomeFragment)
-                //binding.btnChatBot.visibility = View.INVISIBLE
             }
-
         }
     }
 

@@ -1,4 +1,4 @@
-package ro.twodoors.chatbot
+package ro.twodoors.chatbot.customview
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -8,25 +8,25 @@ import android.util.AttributeSet
 import android.util.TypedValue
 import android.widget.SeekBar
 import androidx.core.content.ContextCompat
-
+import ro.twodoors.chatbot.R
 
 @SuppressLint("AppCompatCustomView")
 class CustomSeekbar @JvmOverloads constructor(
-    context: Context,
-    attrs : AttributeSet? = null,
-    defStyleAttr : Int = R.attr.seekBarStyle,
-    defStyleRes : Int = 0
+        context: Context,
+        attrs : AttributeSet? = null,
+        defStyleAttr : Int = R.attr.seekBarStyle,
+        defStyleRes : Int = 0
 ) : SeekBar(context, attrs, defStyleAttr, defStyleRes) {
 
     private val icons : ArrayList<Int> = arrayListOf(
-        R.drawable.ic_hello,
-        R.drawable.ic_restaurant,
-        R.drawable.ic_hotel,
-        R.drawable.ic_tickets,
-        R.drawable.ic_conversation,
-        R.drawable.ic_shopping,
-        R.drawable.ic_calendar,
-        R.drawable.ic_car
+            R.drawable.ic_hello,
+            R.drawable.ic_restaurant,
+            R.drawable.ic_hotel,
+            R.drawable.ic_tickets,
+            R.drawable.ic_conversation,
+            R.drawable.ic_shopping,
+            R.drawable.ic_calendar,
+            R.drawable.ic_car
     )
 
     private val w = getPixelValueFromDP(32f)
@@ -68,7 +68,7 @@ class CustomSeekbar @JvmOverloads constructor(
         }
     }
 
-    private fun getPixelValueFromDP(value : Float) : Float {
+    fun getPixelValueFromDP(value : Float) : Float {
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
                 value,
                 context.resources.displayMetrics)
