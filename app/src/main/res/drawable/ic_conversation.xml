@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/vector_conversation"
+        android:left="8dp"
+        android:right="8dp"
+        android:top="8dp"
+        android:bottom="8dp"/>
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="@color/semiTransparent"/>
+            <size android:height="48dp" android:width="48dp"/>
+        </shape>
+    </item>
+</layer-list>
