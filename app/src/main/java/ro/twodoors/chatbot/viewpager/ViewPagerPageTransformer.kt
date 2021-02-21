@@ -2,7 +2,6 @@ package ro.twodoors.chatbot.viewpager
 
 import android.view.View
 import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.tabs.TabLayout
 import ro.twodoors.chatbot.R
 import kotlin.math.abs
 
@@ -16,7 +15,6 @@ class ViewPagerPageTransformer : ViewPager2.PageTransformer{
 
             view.translationX = offset
             view.scaleY = 1 - (0.25f * abs(position))
-            //view.alpha = 1-Math.abs(position)
         }
     }
 }

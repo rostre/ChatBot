@@ -3,7 +3,7 @@
     <item android:state_selected="true">
         <shape android:shape="ring"
             android:innerRadius="0dp"
-            android:thickness="20dp"
+            android:thickness="@dimen/tickness_tab_selected"
             android:useLevel="false">
 
             <solid android:color="@color/semiTransparent"/>
@@ -12,7 +12,7 @@
     <item>
         <shape android:shape="ring"
             android:innerRadius="0dp"
-            android:thickness="12dp"
+            android:thickness="@dimen/tickness_tab_unselected"
             android:useLevel="false">
             <solid android:color="@color/semiTransparent"/>
         </shape>
