@@ -3,17 +3,18 @@ package ro.twodoors.chatbot.fragments
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.View
-import android.widget.SeekBar
+import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
-import ro.twodoors.chatbot.*
+import com.google.android.material.tabs.TabLayout
+import ro.twodoors.chatbot.R
 import ro.twodoors.chatbot.data.DataItem
 import ro.twodoors.chatbot.data.ItemState
 import ro.twodoors.chatbot.databinding.FragmentChatBotBinding
+import ro.twodoors.chatbot.utils.setIconColor
 import ro.twodoors.chatbot.utils.startCircularReveal
 import ro.twodoors.chatbot.viewpager.ViewPagerAdapter
 import ro.twodoors.chatbot.viewpager.ViewPagerPageTransformer
@@ -43,7 +44,7 @@ class ChatBotFragment : Fragment(R.layout.fragment_chat_bot) {
         _binding = FragmentChatBotBinding.bind(view)
         view.startCircularReveal(posX!!, posY!!)
         setupViewPager()
-        setupSeekbar()
+        setupTabs()
     }
 
     private fun setupViewPager(){
@@ -127,35 +128,34 @@ class ChatBotFragment : Fragment(R.layout.fragment_chat_bot) {
 
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                binding.seekbar.progress = position
+                binding.tabLayout.getTabAt(position)?.select()
 
                 Glide.with(requireNotNull(context))
                         .load(images[position])
                         .centerCrop()
-                        //.transition(DrawableTransitionOptions.withCrossFade(DrawableCrossFadeFactory.Builder().setCrossFadeEnabled(true).build()))
                         .into(object : CustomTarget<Drawable>(){
                             override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
                                 binding.viewPager.background = resource
                             }
-
                             override fun onLoadCleared(placeholder: Drawable?) {}
                         })
             }
         })
     }
 
-    private fun setupSeekbar(){
-        binding.seekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, p2: Boolean) {
-                seekBar?.thumbTintList = resources.getColorStateList(R.color.btnColorBg, null)
+    private fun setupTabs() {
+        binding.tabLayout.getTabAt(0)?.icon?.setIconColor(requireContext(), R.color.white)
+        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
+            override fun onTabReselected(tab: TabLayout.Tab?) {}
 
-                if (binding.viewPager.currentItem != progress)
-                    binding.viewPager.setCurrentItem(progress, true)
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+                tab?.icon?.setIconColor(requireContext(), R.color.semiTransparent)
             }
 
-            override fun onStartTrackingTouch(p0: SeekBar?) {}
-
-            override fun onStopTrackingTouch(p0: SeekBar?) {}
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                binding.viewPager.setCurrentItem(tab?.position ?: 0, true)
+                tab?.icon?.setIconColor(requireContext(), R.color.white)
+            }
         })
     }
 
@@ -163,4 +163,5 @@ class ChatBotFragment : Fragment(R.layout.fragment_chat_bot) {
         super.onDestroyView()
         _binding = null
     }
+
 }

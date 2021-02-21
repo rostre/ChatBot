@@ -2,9 +2,12 @@ package ro.twodoors.chatbot.utils
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.content.Context
+import android.graphics.drawable.Drawable
 import android.view.View
 import android.view.ViewAnimationUtils
 import android.view.animation.DecelerateInterpolator
+import androidx.core.content.ContextCompat
 
 
 fun View.startCircularReveal(posX : Int, posY : Int) {
@@ -43,4 +46,8 @@ fun View.getViewCenter(): IntArray {
     positions[1] = (y + height / 2).toInt()
 
     return positions
+}
+
+fun Drawable.setIconColor(context: Context, color : Int){
+    this.setTintList(ContextCompat.getColorStateList(context, color))
 }
