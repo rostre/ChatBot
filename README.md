@@ -1,3 +1,3 @@
 ## Chatbot
 
-![Demo 1](gifs/chatbot.gif)
+![Demo 1](gif/chatbot.gif)
