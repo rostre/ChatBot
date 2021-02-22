@@ -30,15 +30,15 @@ class ViewPagerAdapter(private val items : List<DataItem>
             tvPosition.text =  "${currentItem.position}/${items.size}"
             btnState.text = currentItem.state.name
             btnState.setOnClickListener {
-                updateState(it)
+                updateState(it, currentItem.state)
             }
         }
     }
 
-    private fun updateState(view: View?) {
+    private fun updateState(view: View?, state: ItemState) {
         val btn = view as? AppCompatButton
-        when(btn?.text?.toString()){
-            ItemState.Unlock.name -> btn.text = ItemState.Start.name
+        when(state){
+            ItemState.Unlock -> btn?.text = ItemState.Start.name
             else -> return
         }
     }
