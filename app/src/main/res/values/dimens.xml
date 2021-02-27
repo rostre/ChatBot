@@ -21,4 +21,5 @@
     <dimen name="margin_4">4dp</dimen>
     <dimen name="tickness_tab_selected">20dp</dimen>
     <dimen name="tickness_tab_unselected">12dp</dimen>
+    <dimen name="btn_chatbot_size">200dp</dimen>
 </resources>

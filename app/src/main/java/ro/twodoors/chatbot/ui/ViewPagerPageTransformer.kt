@@ -1,4 +1,4 @@
-package ro.twodoors.chatbot.viewpager
+package ro.twodoors.chatbot.ui
 
 import android.view.View
 import androidx.viewpager2.widget.ViewPager2

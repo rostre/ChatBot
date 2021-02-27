@@ -1,4 +1,4 @@
-package ro.twodoors.chatbot.data
+package ro.twodoors.chatbot.ui
 
 data class DataItem (
     val title: String,

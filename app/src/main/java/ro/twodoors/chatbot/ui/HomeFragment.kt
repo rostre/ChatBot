@@ -1,4 +1,4 @@
-package ro.twodoors.chatbot.fragments
+package ro.twodoors.chatbot.ui
 
 import android.os.Bundle
 import android.view.View
@@ -19,9 +19,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         _binding = FragmentHomeBinding.bind(view)
 
         binding.btnChatBot.setOnClickListener {
-            val positions = it.getViewCenter()
             fragmentManager?.open {
-                add(R.id.container, ChatBotFragment.newInstance(positions)).addToBackStack(null)
+                add(R.id.container, ChatBotFragment.newInstance(it.getViewCenter())).addToBackStack(null)
             }
         }
     }

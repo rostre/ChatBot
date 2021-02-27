@@ -1,5 +1,6 @@
-package ro.twodoors.chatbot.fragments
+package ro.twodoors.chatbot.ui
 
+import android.graphics.Point
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
@@ -11,38 +12,41 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.tabs.TabLayout
 import ro.twodoors.chatbot.R
-import ro.twodoors.chatbot.data.DataItem
-import ro.twodoors.chatbot.data.ItemState
 import ro.twodoors.chatbot.databinding.FragmentChatBotBinding
 import ro.twodoors.chatbot.utils.setIconColor
 import ro.twodoors.chatbot.utils.startCircularReveal
-import ro.twodoors.chatbot.viewpager.ViewPagerAdapter
-import ro.twodoors.chatbot.viewpager.ViewPagerPageTransformer
+
+private const val POS_X = "POS_X"
+private const val POS_Y = "POS_Y"
 
 class ChatBotFragment : Fragment(R.layout.fragment_chat_bot) {
 
     private var _binding: FragmentChatBotBinding? = null
     private val binding get() = _binding!!
 
-    var posX: Int? = null
-    var posY: Int? = null
+    var posX: Int = 0
+    var posY: Int = 0
 
     companion object {
         @JvmStatic
-        fun newInstance(positions : IntArray ? = null) =
+        fun newInstance(point : Point? = null) =
                 ChatBotFragment().apply {
-                    if (positions != null && positions.size == 2){
-                        posX = positions[0]
-                        posY = positions[1]
+                    if (point != null ){
+                        posX = point.x
+                        posY = point.y
                     }
                 }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (savedInstanceState != null){
+            posX = savedInstanceState.getInt(POS_X)
+            posY = savedInstanceState.getInt(POS_Y)
+        }
 
         _binding = FragmentChatBotBinding.bind(view)
-        view.startCircularReveal(posX!!, posY!!)
+        view.startCircularReveal(posX, posY)
         setupViewPager()
         setupTabs()
     }
@@ -58,59 +62,16 @@ class ChatBotFragment : Fragment(R.layout.fragment_chat_bot) {
                 R.drawable.photo_7,
                 R.drawable.photo_8
         )
-        val items = listOf(
-                DataItem(
-                        "Hello",
-                        1,
-                        ItemState.Start
-                ),
-                DataItem(
-                        "Restaurant",
-                        2,
-                        ItemState.Unlock
-                ),
-                DataItem(
-                        "Hotel",
-                        3,
-                        ItemState.Unlock
-                ),
-                DataItem(
-                        "Tickets",
-                        4,
-                        ItemState.Unlock
-                ),
-                DataItem(
-                        "Conversation",
-                        5,
-                        ItemState.Unlock
-                ),
-                DataItem(
-                        "Shopping",
-                        6,
-                        ItemState.Unlock
-                ),
-                DataItem(
-                        "Appointment",
-                        7,
-                        ItemState.Unlock
-                ),
-                DataItem(
-                        "Taxi",
-                        8,
-                        ItemState.Unlock
-                )
-        )
 
-        val adapter = ViewPagerAdapter(items)
-        binding.viewPager.apply {
-            this.adapter = adapter
+        binding.viewPagerCards.apply {
+            adapter = ViewPagerAdapter()
             setPageTransformer(ViewPagerPageTransformer())
             clipToPadding = false
             clipChildren = false
             offscreenPageLimit = 1
         }
 
-        binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
+        binding.viewPagerCards.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
             override fun onPageScrollStateChanged(state: Int) {
                 Log.d("onPageScrollStateChanged", "state : $state")
             }
@@ -129,13 +90,12 @@ class ChatBotFragment : Fragment(R.layout.fragment_chat_bot) {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 binding.tabLayout.getTabAt(position)?.select()
-
                 Glide.with(requireNotNull(context))
                         .load(images[position])
                         .centerCrop()
                         .into(object : CustomTarget<Drawable>(){
                             override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
-                                binding.viewPager.background = resource
+                                binding.viewPagerCards.background = resource
                             }
                             override fun onLoadCleared(placeholder: Drawable?) {}
                         })
@@ -153,10 +113,19 @@ class ChatBotFragment : Fragment(R.layout.fragment_chat_bot) {
             }
 
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                binding.viewPager.setCurrentItem(tab?.position ?: 0, true)
+                binding.viewPagerCards.setCurrentItem(tab?.position ?: 0, true)
                 tab?.icon?.setIconColor(requireContext(), R.color.white)
             }
         })
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        Log.d("onSaveInstanceState", "posX: $posX, " + "posY: $posY");
+        outState.run {
+            putInt(POS_X, posX)
+            putInt(POS_Y, posY)
+        }
+        super.onSaveInstanceState(outState)
     }
 
     override fun onDestroyView() {
